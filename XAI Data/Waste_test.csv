@@ -1,0 +1,13 @@
+Bin,Filling,Accumulation,Distance,Capacity,Size_Small,Size_Medium,Size_Large
+HospitalMyYoussef,000,1,0,98,0,0,0,1
+HospitalIbnRochd,001,1,10,61,74,0,0,1
+Hôpitad'Enfants,002,0,1,55,74,0,1,0
+CentreDentaire,003,0,6,100,74,1,0,0
+Hospital20Août,004,0,7,78,74,0,0,1
+HospitalBouafi,005,0,11,82,74,0,0,1
+HospitalBenM'Sik,006,0,1,73,74,0,0,1
+HopitalMohammedSEKKAT,007,0,0,91,74,0,0,1
+HospitalHassani,007,1,9,55,74,0,0,1
+HospitalTitMellil,008,1,10,88,74,0,0,1
+HospitalMohamedV,009,0,7,52,74,0,0,1
+HospitalMyAbdellah,010,0,10,58,74,0,0,1
