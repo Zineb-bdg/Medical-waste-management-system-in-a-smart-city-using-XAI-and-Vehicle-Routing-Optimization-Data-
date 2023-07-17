@@ -1,0 +1,70 @@
+import pandas as pd
+
+# Chargement des données
+hospital_data = pd.read_csv('hospital_data.csv')
+bin_data = pd.read_csv('bin_data.csv')
+
+# Niveau de service souhaité (en proportion)
+service_level = 0.7
+# Tolerance (en proportion) pour le niveau de service
+tolerance = 0.1
+
+# Initialisation du compteur de bacs pleins et à collecter
+over_capacity = [0] * len(hospital_data)
+to_collect = [0] * len(hospital_data)
+total_over_capacity = 0
+# Parcours des données des bacs
+for i, bin_row in bin_data.iterrows():
+    # Récupération de l'hôpital associé au bac
+    hospital_id = bin_row['hospital_id']
+    # Récupération de la capacité du bac
+    bin_capacity = bin_row['capacity']
+    # Récupération de la quantité de déchets actuelle du bac
+    bin_fill_level = bin_row['fill_level']
+    
+    # Calcul du niveau de remplissage du bac en proportion de sa capacité
+    fill_ratio = bin_fill_level / bin_capacity
+    
+    # Vérification si le niveau de remplissage dépasse le seuil de service souhaité
+    if fill_ratio > service_level:
+        # Ajout du bac plein à la liste des bacs pleins de l'hôpital associé
+        over_capacity[hospital_id - 1] += 1
+        # Calcul du nombre de bacs à collecter
+        to_collect[hospital_id - 1] += 1
+        total_over_capacity += 1
+
+# Parcours des hôpitaux pour afficher le nombre de bacs pleins et à collecter
+for m, hospital_row in hospital_data.iterrows():
+    # Récupération du nom de l'hôpital
+    hospital_name = hospital_row['hospital_name']
+    # Récupération du nombre de bacs pleins de l'hôpital
+    num_over_capacity = over_capacity[m]
+    # Récupération du nombre total de bacs de l'hôpital
+    num_bins = len(bin_data.loc[bin_data['hospital_id'] == m+1])
+    # Récupération du nombre de bacs à collecter de l'hôpital
+    num_to_collect = to_collect[m]
+    
+    # Calcul du niveau de service actuel de l'hôpital en proportion
+    if num_bins > 0:
+        service_ratio = (num_bins - num_over_capacity) / num_bins
+    else:
+        service_ratio = 0
+    
+    # Affichage des résultats
+    print(hospital_name)
+    print('Nombre de bacs pleins:', num_over_capacity)
+    print('Nombre total de bacs:', num_bins)
+    print('Nombre de bacs à collecter:', num_to_collect)
+    print('Niveau de service actuel:', service_ratio)
+    
+    # Vérification si le niveau de service actuel est inférieur au seuil de service souhaité + la tolerance
+    if num_bins > 0 and over_capacity[m]/len(bin_data.loc[bin_data['hospital_id'] == m+1]) > service_level + tolerance:
+        print('ALERTE: Niveau de service insuffisant')
+    else:
+        print('Niveau de service suffisant')
+        
+    print('------------------------------')
+    
+    print('Nombre total de bacs à collecter :', total_over_capacity)
+        
+    print('------------------------------')
